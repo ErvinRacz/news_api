@@ -15,6 +15,38 @@ This solution uses DENO as the server runtime for JavaScript.
 
 ### A. Full Stack Installation (only Linux, MacOS or WLS)
 
+                       ┌─────┐                         
+                       │user │                         
+                       └──┬──┘                         
+                          │                            
+                  ┌───────▼────────┐                   
+     k8s cluster  │                │                   
+┌─────────────────│  k8s proxy/ic  │──────────────────┐
+│                 │                │                  │
+│                 └───────┬────────┘                  │
+│                         │                           │
+│                 ┌───────▼────────┐                  │
+│                 │ loadbalancer   │                  │
+│           ┌─────┴───────┬────────┴─────┐            │
+│  ┌────────┼─────────────┼──────────────┼────────┐   │
+│  │ deploym│nt           │              │        │   │
+│  │        │             │              │        │   │
+│  │  ┌─────▼──┐     ┌────▼───┐     ┌────▼────┐   │   │
+│  │  │        │     │        │     │         │   │   │
+│  │  │ news_api     │news_api│     │ news_api│   │   │
+│  │  │        │     │        │     │         │   │   │
+│  │  └────┬───┘     └────┬───┘     └─────┬───┘   │   │
+│  │       │              │               │       │   │
+│  └───────┼──────────────┼───────────────┼───────┘   │
+│          │    ┌─────────▼─────────┐     │           │
+│          │    │                   │     │           │
+│          │    │                   │     │           │
+│          └────►  memcache service       │           │
+│               │                   ◄─────┘           │
+│               │                   │                 │
+│               └───────────────────┘                 │
+└─────────────────────────────────────────────────────┘
+
 3. Install Nix: the BEST package manager with a popular installer and default
    options.
    `curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install`.
@@ -126,6 +158,7 @@ curl -X GET "http://localhost:8000/news/byTitle?title=Remarkable%20survival%20of
 ### Tests
    - Write more tests whether that is end-to-end api test or unit tests
    - Introduce code coverage metrics
+   - The superoak tests hang. There must be a configuration issue that is to be solved.
 ### CI/CD
    - Nix can help by a lot to implement these pipelines
    - CI checks should be put in palce to check for linting, formatting and the tests passing
