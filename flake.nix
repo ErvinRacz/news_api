@@ -56,6 +56,8 @@
               deno --version
             '';
           };
+        GNEWS_API_KEY = import ./.secrets/gnews-api-key.secret;
+        GNEWS_BASE_URL = "https://gnews.io/api/v4/";
       }
     );
 }

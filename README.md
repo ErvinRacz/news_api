@@ -26,9 +26,15 @@ You can later uninstall it via `/nix/nix-installer uninstall`.
 4. Bootstrap the full stack dev environment:
    `nix develop github:ErvinRacz/news_api#bootstrap && cd news_api`
 
+5. Normally the secret shouldn't be shared in a readme, but for the sake of simplifying testing, here it is. Unlock `GNEWS API KEY` secret by `git-crypt unlock .git-crypt-key`
+
 ### B. Bare Minimum Installation (Linux, MacOS, Windows)
 
 3. [Install DENO following the official guide.](https://docs.deno.com/runtime/fundamentals/installation/)
+
+4. [Install git-crypt.](https://github.com/AGWA/git-crypt)
+
+5. Normally the secret shouldn't be shared, but for the sake of simplifying testing, here it is. Unlock `GNEWS API KEY` secret by `git-crypt unlock .git-crypt-key`
 
 Run these commands to get started
 
