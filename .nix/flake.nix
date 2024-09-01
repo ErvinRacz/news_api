@@ -19,25 +19,37 @@
         # `eachDefaultSystem` transforms the input, our output set
         # now simply has `packages.default` or `devShells.default` which gets turned into
         # `packages.${system}.default` (for each system)
-        devShells.default =
-          (
-            pkgs.mkShell {
-              name = "${projectName}-shell";
-              packages = with pkgs;
-                [
-                  git
-                  gum
-                  deno
-                ];
+        devShells.bootstrap =
+          pkgs.mkShell {
+            name = "${projectName}-bootstrap-shell";
+            packages = with pkgs;
+              [
+                git
+                gum
+              ];
 
-              shellHook = /*bash*/ ''
-                gum log --level info "'--- git status ---'"
-                git status
-                gum log --level info "'--- deno version ---'"
-                deno --version
-              '';
-            }
-          );
+            shellHook = /*bash*/ ''
+              gum confirm "Do you want to clone the ${projectName} project in the $(pwd)/news_api directory?" && git clone git@github.com:ErvinRacz/news_api.git
+              nix profile install nixpkgs#nix-direnv nixpkgs#direnv
+            '';
+          };
+        devShells.default =
+          pkgs.mkShell {
+            name = "${projectName}-shell";
+            packages = with pkgs;
+              [
+                git
+                gum
+                deno
+              ];
+
+            shellHook = /*bash*/ ''
+              gum log --level info "'--- git status ---'"
+              git status
+              gum log --level info "'--- deno version ---'"
+              deno --version
+            '';
+          };
       }
     );
 }
