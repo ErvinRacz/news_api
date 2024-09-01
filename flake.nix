@@ -29,8 +29,11 @@
               ];
 
             shellHook = /*bash*/ ''
-              gum confirm "Do you want to clone the ${projectName} project in the $(pwd)/news_api directory?" && git clone git@github.com:ErvinRacz/news_api.git
-              nix profile install nixpkgs#nix-direnv nixpkgs#direnv
+              PROJECT_DIR="news_api"
+              gum confirm "Do you want to clone the ${projectName} project in the $(pwd)/$(PROJECT_DIR) directory?" && git clone git@github.com:ErvinRacz/news_api.git
+              gum confirm "Do you allow the installation of direnv for your nix profile? Necessary for automatic installation of your dev env. All dependencies will be installed on changing the directory to $(pwd)/$(PROJECT_DIR)." && nix profile install nixpkgs#direnv nixpkgs#nix-direnv
+              direnv allow $PROJECT_DIR/
+              exit
             '';
           };
         devShells.default =

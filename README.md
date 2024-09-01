@@ -11,10 +11,17 @@ This solution uses DENO as the server runtime for JavaScript.
 
 ### A. Full Stack Installation (only Linux, MacOS or WLS)
 
+3. Install Nix: the BEST package manager with a popular installer and default options.
+`curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install`
+You can later uninstall it via `/nix/nix-installer uninstall`.
+
+[Alternatively follow the official guide.](https://nixos.org/download/#nix-install-linux)
+
+4. Bootstrap the full stack dev environment: `nix develop github:ErvinRacz/news_api#bootstrap && cd news_api`
+
 ### B. Bare Minimum Installation (Linux, MacOS, Windows)
 
 3. [Install DENO following the official guide.](https://docs.deno.com/runtime/fundamentals/installation/)
-
 
 
 Run these commands to get started
