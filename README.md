@@ -52,10 +52,93 @@ deno task dev
 
 deno test
 
+## News API Documentation
 
-## Considerations:
+This API provides access to news articles, allowing you to fetch articles, search by keywords, and filter by title or author.
+
+### Base URL
+```
+http://localhost:8000
+```
+
+### Endpoints
+
+#### 1. Get News Articles
+
+**Endpoint:**
+```
+GET /news
+```
+
+**Description:**
+Fetches a specific number of news articles.
+
+**Query Parameters:**
+- `n`: (optional) Number of articles to fetch. Default is 10.
+
+**Example:**
+```bash
+curl -X GET "http://localhost:8000/news?n=5" -H "Accept: application/json"
+```
+
+#### 2. Search News by Keyword
+
+**Endpoint:**
+```
+GET /news/search
+```
+
+**Description:**
+Searches for news articles containing the specified keyword.
+
+**Query Parameters:**
+- `q`: (required) The keyword to search for.
+
+**Example:**
+```bash
+curl -X GET "http://localhost:8000/news/search?q=deno" -H "Accept: application/json"
+```
+
+#### 3. Find News by Title
+
+**Endpoint:**
+```
+GET /news/byTitle
+```
+
+**Description:**
+Finds news articles that match the specified title.
+
+**Query Parameters:**
+- `title`: (required) The title of the article to find.
+
+**Example:**
+```bash
+curl -X GET "http://localhost:8000/news/byTitle?title=SpecificTitle" -H "Accept: application/json"
+```
+
+#### 4. Find News by Author
+
+**Endpoint:**
+```
+GET /news/byAuthor
+```
+
+**Description:**
+Finds news articles written by the specified author.
+
+**Query Parameters:**
+- `author`: (required) The author's name.
+
+**Example:**
+```bash
+curl -X GET "http://localhost:8000/news/byAuthor?author=TestAuthor" -H "Accept: application/json"
+```
+
+# Futher Considerations:
    - Remove the secret key file from the repo
 ### API Design
+   - Using OpenAPI docs and serving the OpenAPI UI. `https://deno.land/x/openapi@0.1.0/mod.ts` could be used for that.
    - I kept the current API design simple, but an important improvement point would be to intruduce pagination for the endpoints. This is especially important if we provide generic serach terms and a huge number of articles would be expected to match the query.
 ### Tests
    - Write more tests whether that is end-to-end api test or unit tests

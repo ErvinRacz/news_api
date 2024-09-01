@@ -47,6 +47,7 @@
                 colima
                 just
                 git-crypt
+                jq
               ];
             env =
               {
