@@ -50,20 +50,6 @@ class MockNewsSource implements NewsSource {
       ],
     );
   }
-
-  findByAuthor(author: string): Promise<Article[]> {
-    return Promise.resolve(
-      [
-        {
-          ...this.generateMockArticle(1),
-          source: {
-            name: author,
-            url: `https://example.com/mock-source-author`,
-          },
-        },
-      ],
-    );
-  }
 }
 
 const mockNewsSource = new MockNewsSource();
@@ -93,15 +79,6 @@ Deno.test("GET /news/title should return articles matching the title", async () 
   );
 
   assertEquals(response.body.articles[0].title, "SpecificTitle");
-});
-
-Deno.test("GET /news/author should return articles by the author", async () => {
-  const request = await superoak(app);
-  const response = await request.get("/news/author?author=TestAuthor").expect(
-    200,
-  );
-
-  assertEquals(response.body.articles[0].author, "TestAuthor");
 });
 
 Deno.test("GET /news should return 400 for non-integer 'n'", async () => {
@@ -134,12 +111,3 @@ Deno.test("GET /news/byTitle should return 406 if 'title' is too short", async (
   await request.get("/news/byTitle?title=ab").expect(Status.NotAcceptable);
 });
 
-Deno.test("GET /news/byAuthor should return 400 if 'author' is missing", async () => {
-  const request = await superoak(app);
-  await request.get("/news/byAuthor").expect(Status.BadRequest);
-});
-
-Deno.test("GET /news/byAuthor should return 406 if 'author' is too short", async () => {
-  const request = await superoak(app);
-  await request.get("/news/byAuthor?author=ab").expect(Status.NotAcceptable);
-});

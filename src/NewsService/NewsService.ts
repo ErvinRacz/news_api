@@ -7,7 +7,7 @@ export class NewsService {
   ) {}
 
   async fetchNewsArticles(n: number) {
-    const cacheKey = `news-${n}`;
+    // const cacheKey = `news-${n}`;
     // const cachedArticles = this.cache.get(cacheKey);
     // if (cachedArticles) return cachedArticles;
 
@@ -32,16 +32,6 @@ export class NewsService {
     // if (cachedArticles) return cachedArticles;
 
     const articles = await this.newsSource.findByTitle(title);
-    // this.cache.set(cacheKey, articles);
-    return articles;
-  }
-
-  async findNewsByAuthor(author: string) {
-    // const cacheKey = `author-${author}`;
-    // const cachedArticles = this.cache.get(cacheKey);
-    // if (cachedArticles) return cachedArticles;
-
-    const articles = await this.newsSource.findByAuthor(author);
     // this.cache.set(cacheKey, articles);
     return articles;
   }

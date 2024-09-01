@@ -31,39 +31,39 @@ export class GNewsSource implements NewsSource {
     return url;
   }
 
-  fetchNews(n: number): Promise<GnewsArticle[]> {
+  async fetchNews(n: number): Promise<GnewsArticle[]> {
     const response = fetch(
       GNewsSource.getUrlWithKey(`/top-headlines?max=${n}`),
     );
-    return response
-      .then((res) => res.json())
-      .then((data) => ARTICLE_SCHEMA.array().parseAsync(data.articles));
+    const res = await response;
+    const data = await res.json();
+    if (data.errors) {
+      throw Error(JSON.stringify(data.errors));
+    }
+    return await ARTICLE_SCHEMA.array().parseAsync(data.articles);
   }
 
-  searchByKeyword(keyword: string): Promise<GnewsArticle[]> {
+  async searchByKeyword(keyword: string): Promise<GnewsArticle[]> {
     const response = fetch(
       GNewsSource.getUrlWithKey(`/search?q=${keyword}`),
     );
-    return response
-      .then((res) => res.json())
-      .then((data) => ARTICLE_SCHEMA.array().parseAsync(data.articles));
+    const res = await response;
+    const data = await res.json();
+    if (data.errors) {
+      throw Error(JSON.stringify(data.errors));
+    }
+    return await ARTICLE_SCHEMA.array().parseAsync(data.articles);
   }
 
-  findByTitle(title: string): Promise<GnewsArticle[]> {
+  async findByTitle(title: string): Promise<GnewsArticle[]> {
     const response = fetch(
-      GNewsSource.getUrlWithKey(`/search?q=intitle:"${title}"`),
+      GNewsSource.getUrlWithKey(`/search?q=${title}&in=title`),
     );
-    return response
-      .then((res) => res.json())
-      .then((data) => ARTICLE_SCHEMA.array().parseAsync(data.articles));
-  }
-
-  findByAuthor(author: string): Promise<GnewsArticle[]> {
-    const response = fetch(
-      GNewsSource.getUrlWithKey(`/search?q=inauthor:"${author}"`),
-    );
-    return response
-      .then((res) => res.json())
-      .then((data) => ARTICLE_SCHEMA.array().parseAsync(data.articles));
+    const res = await response;
+    const data = await res.json();
+    if (data.errors) {
+      throw Error(JSON.stringify(data.errors));
+    }
+    return await ARTICLE_SCHEMA.array().parseAsync(data.articles);
   }
 }

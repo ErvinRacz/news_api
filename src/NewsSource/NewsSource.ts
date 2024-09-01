@@ -7,5 +7,4 @@ export interface NewsSource {
   fetchNews(n: number): Promise<Article[]>;
   searchByKeyword(keyword: string): Promise<Article[]>;
   findByTitle(title: string): Promise<Article[]>;
-  findByAuthor(author: string): Promise<Article[]>;
 }

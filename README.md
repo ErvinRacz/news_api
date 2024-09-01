@@ -78,7 +78,7 @@ Fetches a specific number of news articles.
 
 **Example:**
 ```bash
-curl -X GET "http://localhost:8000/news?n=5" -H "Accept: application/json"
+curl -X GET "http://localhost:8000/news?n=5" -H "Accept: application/json" | jq
 ```
 
 #### 2. Search News by Keyword
@@ -96,7 +96,7 @@ Searches for news articles containing the specified keyword.
 
 **Example:**
 ```bash
-curl -X GET "http://localhost:8000/news/search?q=deno" -H "Accept: application/json"
+curl -X GET "http://localhost:8000/news/search?q=dog" -H "Accept: application/json" | jq
 ```
 
 #### 3. Find News by Title
@@ -114,30 +114,13 @@ Finds news articles that match the specified title.
 
 **Example:**
 ```bash
-curl -X GET "http://localhost:8000/news/byTitle?title=SpecificTitle" -H "Accept: application/json"
-```
-
-#### 4. Find News by Author
-
-**Endpoint:**
-```
-GET /news/byAuthor
-```
-
-**Description:**
-Finds news articles written by the specified author.
-
-**Query Parameters:**
-- `author`: (required) The author's name.
-
-**Example:**
-```bash
-curl -X GET "http://localhost:8000/news/byAuthor?author=TestAuthor" -H "Accept: application/json"
+curl -X GET "http://localhost:8000/news/byTitle?title=Remarkable%20survival%20of%20dog%20feared%20to%20have%20died" -H "Accept: application/json" | jq
 ```
 
 # Futher Considerations:
    - Remove the secret key file from the repo
 ### API Design
+   - The router is not properly typed yet. The structure of return types could be provided.
    - Using OpenAPI docs and serving the OpenAPI UI. `https://deno.land/x/openapi@0.1.0/mod.ts` could be used for that.
    - I kept the current API design simple, but an important improvement point would be to intruduce pagination for the endpoints. This is especially important if we provide generic serach terms and a huge number of articles would be expected to match the query.
 ### Tests

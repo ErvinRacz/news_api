@@ -56,23 +56,7 @@ export function createRouter(newsService: NewsService) {
       );
       const articles = await newsService.findNewsByTitle(title);
       context.response.body = articles;
-    })
-    .get("/news/byAuthor", async (context: Context) => {
-      const author = context.request.url.searchParams.get("author");
-      context.assert(
-        author,
-        Status.BadRequest,
-        "Query parameter 'author' is required",
-      );
-      context.assert(
-        author.length > 2,
-        Status.NotAcceptable,
-        "'author' must be at least 3 characters long",
-      );
-      const articles = await newsService.findNewsByAuthor(author);
-      context.response.body = articles;
     });
-
   return router;
 }
 
