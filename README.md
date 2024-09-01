@@ -14,7 +14,7 @@ This solution uses DENO as the server runtime for JavaScript.
    for the dev tools.
 
 ### A. Full Stack Installation (only Linux, MacOS or WLS)
-
+```
                        ┌─────┐                         
                        │user │                         
                        └──┬──┘                         
@@ -46,7 +46,7 @@ This solution uses DENO as the server runtime for JavaScript.
 │               │                   │                 │
 │               └───────────────────┘                 │
 └─────────────────────────────────────────────────────┘
-
+```
 3. Install Nix: the BEST package manager with a popular installer and default
    options.
    `curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install`.
