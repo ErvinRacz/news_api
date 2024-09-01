@@ -1,10 +1,11 @@
 {
   "tasks": {
-    "dev": "deno run --watch src/main.ts",
+    "dev": "deno run --watch --allow-net src/main.ts",
     "test": "deno test --allow-env"
   },
   "imports": {
     "@oak/oak": "jsr:@oak/oak@^16.1.0",
-    "@std/assert": "jsr:@std/assert@1"
+    "@std/assert": "jsr:@std/assert@1",
+    "zod": "https://deno.land/x/zod/mod.ts"
   }
 }

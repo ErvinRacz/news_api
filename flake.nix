@@ -46,6 +46,7 @@
                 deno
                 colima
                 just
+                git-crypt
               ];
 
             shellHook = /*bash*/ ''
