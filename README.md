@@ -58,7 +58,7 @@ You can later uninstall it via `/nix/nix-installer uninstall`.
 4. Bootstrap the full stack dev environment:
    `nix develop github:ErvinRacz/news_api#bootstrap && cd news_api`
 
-5. Normally the secret shouldn't be shared in a readme, but for the sake of simplifying testing, here it is. Unlock `GNEWS API KEY` secret by running: `git-crypt unlock .git-crypt-key`
+5. Normally the secret shouldn't be shared in a readme, but for the sake of simplifying testing, here it is. Unlock `GNEWS API KEY` secret by running in the root dir: `git-crypt unlock .git-crypt-key`
 
 ### B. Bare Minimum Installation (Linux, MacOS, Windows)
 
