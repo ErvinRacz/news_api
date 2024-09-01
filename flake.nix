@@ -44,6 +44,8 @@
                 git
                 gum
                 deno
+                colima
+                just
               ];
 
             shellHook = /*bash*/ ''
