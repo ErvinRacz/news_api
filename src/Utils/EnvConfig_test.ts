@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { EnvConfig } from "./EnvConfig.ts";
-import { ServerConfigurationException } from "../exceptions/ServerConfigurationException.ts";
+import { ServerConfigurationException } from "../Exceptions/ServerConfigurationException.ts";
 
 Deno.test("EnvConfig.getEnvVar returns the correct environment variable", () => {
   // Arrange

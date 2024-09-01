@@ -48,6 +48,12 @@
                 just
                 git-crypt
               ];
+            env =
+              {
+                GNEWS_API_KEY = import ./.secrets/gnews-api-key.secret;
+                GNEWS_BASE_URL = "https://gnews.io/api/v4";
+                PORT = 8000;
+              };
 
             shellHook = /*bash*/ ''
               gum log --level info "'--- git status ---'"
@@ -56,8 +62,6 @@
               deno --version
             '';
           };
-        GNEWS_API_KEY = import ./.secrets/gnews-api-key.secret;
-        GNEWS_BASE_URL = "https://gnews.io/api/v4/";
       }
     );
 }

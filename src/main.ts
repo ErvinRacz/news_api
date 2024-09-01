@@ -1,30 +1,90 @@
-import { Application, Router } from "@oak/oak";
-import { EnvConfig } from "./utils/EnvConfig.ts";
+import { Application, Context, Router, Status } from "@oak/oak";
+import { EnvConfig } from "./Utils/EnvConfig.ts";
+import { GNewsSource } from "./NewsSource/GNewsSource.ts";
+import { NewsService } from "./NewsService/NewsService.ts";
 
-const books = new Map<string, any>();
-books.set("1", {
-  id: "1",
-  title: "The Hound of the Baskervilles",
-  author: "Conan Doyle, Arthur",
-});
+const newsSource = new GNewsSource();
+// const newsCache = new InMemoryCache();
+const newsService = new NewsService(newsSource);
 
-const router = new Router();
-router
-  .get("/", (context) => {
-    context.response.body = "Hello world!";
-  })
-  .get("/book", (context) => {
-    context.response.body = Array.from(books.values());
-  })
-  .get("/book/:id", (context) => {
-    if (books.has(context?.params?.id)) {
-      context.response.body = books.get(context.params.id);
-    }
-  });
+export function createRouter(newsService: NewsService) {
+  const router = new Router();
 
-const app = new Application();
-app.use(router.routes());
-app.use(router.allowedMethods());
+  const validateInteger = (
+    value: string | null,
+    context: Context,
+    name: string,
+  ) => {
+    const numValue = Number(value);
+    context.assert(
+      !isNaN(numValue) && Number.isInteger(numValue) && numValue > 0,
+      Status.BadRequest,
+      `${name} must be a positive integer`,
+    );
+    return numValue;
+  };
+
+  router
+    .get("/news", async (context) => {
+      const n = context.request.url.searchParams.get("n");
+      const numArticles = n ? validateInteger(n, context, "n") : 10;
+      const articles = await newsService.fetchNewsArticles(numArticles);
+      context.response.body = articles;
+    })
+    .get("/news/search", async (context: Context) => {
+      const q: string | null = context.request.url.searchParams.get("q");
+      context.assert(q, Status.BadRequest, "Query parameter 'q' is required");
+      context.assert(
+        q.length > 2,
+        Status.NotAcceptable,
+        "'q' must be at least 3 characters long",
+      );
+      const articles = await newsService.searchNewsByKeyword(q);
+      context.response.body = articles;
+    })
+    .get("/news/byTitle", async (context: Context) => {
+      const title = context.request.url.searchParams.get("title");
+      context.assert(
+        title,
+        Status.BadRequest,
+        "Query parameter 'title' is required",
+      );
+      context.assert(
+        title.length > 2,
+        Status.NotAcceptable,
+        "'title' must be at least 3 characters long",
+      );
+      const articles = await newsService.findNewsByTitle(title);
+      context.response.body = articles;
+    })
+    .get("/news/byAuthor", async (context: Context) => {
+      const author = context.request.url.searchParams.get("author");
+      context.assert(
+        author,
+        Status.BadRequest,
+        "Query parameter 'author' is required",
+      );
+      context.assert(
+        author.length > 2,
+        Status.NotAcceptable,
+        "'author' must be at least 3 characters long",
+      );
+      const articles = await newsService.findNewsByAuthor(author);
+      context.response.body = articles;
+    });
+
+  return router;
+}
+
+export function createApplication(newsService: NewsService) {
+  const app = new Application();
+  const router = createRouter(newsService);
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+  return app;
+}
+
+const app = createApplication(newsService);
 
 const PORT = EnvConfig.getIntEnvVar("PORT");
 await app.listen({ port: PORT });

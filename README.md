@@ -51,3 +51,15 @@ deno task dev
 # Run the tests
 
 deno test
+
+
+## Considerations:
+   - Remove the secret key file from the repo
+### API Design
+   - I kept the current API design simple, but an important improvement point would be to intruduce pagination for the endpoints. This is especially important if we provide generic serach terms and a huge number of articles would be expected to match the query.
+### Tests
+   - Write more tests whether that is end-to-end api test or unit tests
+   - Introduce code coverage metrics
+### CI/CD
+   - Nix can help by a lot to implement these pipelines
+   - CI checks should be put in palce to check for linting, formatting and the tests passing

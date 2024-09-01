@@ -1,4 +1,4 @@
-import { ServerConfigurationException } from "../exceptions/ServerConfigurationException.ts";
+import { ServerConfigurationException } from "../Exceptions/ServerConfigurationException.ts";
 
 export class EnvConfig {
   static getEnvVar(varName: string) {
