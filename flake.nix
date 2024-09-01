@@ -48,12 +48,13 @@
                 just
                 git-crypt
                 jq
+                kubectl
               ];
             env =
               {
                 GNEWS_API_KEY = import ./.secrets/gnews-api-key.secret;
                 GNEWS_BASE_URL = "https://gnews.io/api/v4";
-                PORT = 8000;
+                NEWS_API_PORT = 8000;
               };
 
             shellHook = /*bash*/ ''
@@ -61,6 +62,9 @@
               git status
               gum log --level info "'--- deno version ---'"
               deno --version
+              echo
+              echo "🍎🍎 Run 'just <recipe>' to get started"
+              just
             '';
           };
       }

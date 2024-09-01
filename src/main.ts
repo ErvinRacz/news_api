@@ -70,5 +70,5 @@ export function createApplication(newsService: NewsService) {
 
 const app = createApplication(newsService);
 
-const PORT = EnvConfig.getIntEnvVar("PORT");
+const PORT = EnvConfig.getIntEnvVar("NEWS_API_PORT");
 await app.listen({ port: PORT });

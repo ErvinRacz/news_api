@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: news-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: news-api
+  template:
+    metadata:
+      labels:
+        app: news-api
+    spec:
+      containers:
+      - name: news-api
+        image: news_api:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MEMCACHED_HOST
+          value: "memcached-service"
+        - name: MEMCACHED_PORT
+          value: "11211"
+        - name: NEWS_API_PORT
+          value: "8000"
+        - name: GNEWS_API_KEY
+          value: ${GNEWS_API_KEY_PLACEHOLDER}
+        - name: GNEWS_BASE_URL
+          value: ${GNEWS_BASE_URL_PLACEHOLDER}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: news-api-service
+spec:
+  selector:
+    app: news-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memcached-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memcached
+  template:
+    metadata:
+      labels:
+        app: memcached
+    spec:
+      containers:
+      - name: memcached
+        image: memcached:1.6.9
+        ports:
+        - containerPort: 11211
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memcached-service
+spec:
+  selector:
+    app: memcached
+  ports:
+    - protocol: TCP
+      port: 11211
+      targetPort: 11211
+  type: ClusterIP
