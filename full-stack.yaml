@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: news-api-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: news-api
@@ -29,6 +29,13 @@ spec:
           value: ${GNEWS_API_KEY_PLACEHOLDER}
         - name: GNEWS_BASE_URL
           value: ${GNEWS_BASE_URL_PLACEHOLDER}
+        - name: MEMCACHED_SERVERS
+          value: "memcached-service:11211"
+        - name: MEMCACHED_USER
+          value: admin
+        - name: MEMCACHED_PASSWORD
+          value: admin
+
 ---
 apiVersion: v1
 kind: Service
@@ -59,7 +66,7 @@ spec:
     spec:
       containers:
       - name: memcached
-        image: memcached:1.6.9
+        image: memcached:1.6.29
         ports:
         - containerPort: 11211
 ---

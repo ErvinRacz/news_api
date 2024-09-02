@@ -79,6 +79,11 @@ curl -X GET "http://localhost:8000/news?n=5" -H "Accept: application/json" | jq
 
 5. Normally the secret shouldn't be shared, but for the sake of simplifying testing, here it is. Unlock `GNEWS API KEY` secret by `git-crypt unlock .git-crypt-key`
 
+6. Set the environment variables and run `deno task dev`. You can find my credentials in the .secret directory after decryption.
+```bash
+GNEWS_API_KEY=apikey GNEWS_BASE_URL=baseurl NEWS_API_PORT=8000 deno task dev
+```
+
 ## News API Documentation
 
 This API provides access to news articles, allowing you to fetch articles, search by keywords, and filter by title or author.
@@ -158,3 +163,4 @@ curl -X GET "http://localhost:8000/news/byTitle?title=Remarkable%20survival%20of
 ### CI/CD
    - Nix can help by a lot to implement these pipelines
    - CI checks should be put in palce to check for linting, formatting and the tests passing
+   - secretes manager for k8s etc

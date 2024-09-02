@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { EnvConfig } from "../Utils/EnvConfig.ts";
 import { NewsSource } from "./NewsSource.ts";
+import { retryFetch } from "../Utils/Client.ts";
 
 const GNEWS_API_KEY = EnvConfig.getEnvVar("GNEWS_API_KEY");
 const GNEWS_BASE_URL = EnvConfig.getEnvVar("GNEWS_BASE_URL");
@@ -32,10 +33,9 @@ export class GNewsSource implements NewsSource {
   }
 
   async fetchNews(n: number): Promise<GnewsArticle[]> {
-    const response = fetch(
+    const res = await retryFetch(
       GNewsSource.getUrlWithKey(`/top-headlines?max=${n}`),
     );
-    const res = await response;
     const data = await res.json();
     if (data.errors) {
       throw Error(JSON.stringify(data.errors));
@@ -44,10 +44,9 @@ export class GNewsSource implements NewsSource {
   }
 
   async searchByKeyword(keyword: string): Promise<GnewsArticle[]> {
-    const response = fetch(
+    const res = await retryFetch(
       GNewsSource.getUrlWithKey(`/search?q=${keyword}`),
     );
-    const res = await response;
     const data = await res.json();
     if (data.errors) {
       throw Error(JSON.stringify(data.errors));
@@ -56,10 +55,9 @@ export class GNewsSource implements NewsSource {
   }
 
   async findByTitle(title: string): Promise<GnewsArticle[]> {
-    const response = fetch(
+    const res = await retryFetch(
       GNewsSource.getUrlWithKey(`/search?q=${title}&in=title`),
     );
-    const res = await response;
     const data = await res.json();
     if (data.errors) {
       throw Error(JSON.stringify(data.errors));

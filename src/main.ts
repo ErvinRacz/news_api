@@ -7,13 +7,11 @@ import { SimpleJsNewsCache } from "./NewsService/Cache/SimpleJsNewsCache.ts";
 
 const newsSource = new GNewsSource();
 
-const SERVERS = Deno.env.get("MEMCACHED_SERVERS");
-const MEMCACHED_USER = Deno.env.get("MEMCACHED_USER");
-const MEMCACHED_PASSWORD = Deno.env.get("MEMCACHED_PASSWORD");
+const MEMCACHED_SERVERS = Deno.env.get("MEMCACHED_SERVERS");
 
 let newsCache;
-if (SERVERS && MEMCACHED_USER && MEMCACHED_PASSWORD) {
-  newsCache = new MemcachedNewsCache(SERVERS, MEMCACHED_USER, MEMCACHED_PASSWORD);
+if (MEMCACHED_SERVERS) {
+  newsCache = new MemcachedNewsCache(MEMCACHED_SERVERS);
 } else {
   newsCache = new SimpleJsNewsCache();
 }
