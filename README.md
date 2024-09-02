@@ -145,6 +145,7 @@ curl -X GET "http://localhost:8000/news/byTitle?title=Remarkable%20survival%20of
 ```
 
 # Futher Considerations:
+   - Retry mechanism for the api calls to GNEWS.
    - Remove the secret key file from the repo
 ### API Design
    - The router is not properly typed yet. The structure of return types could be provided.

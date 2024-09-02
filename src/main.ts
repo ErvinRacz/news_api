@@ -2,10 +2,23 @@ import { Application, Context, Router, Status } from "@oak/oak";
 import { EnvConfig } from "./Utils/EnvConfig.ts";
 import { GNewsSource } from "./NewsSource/GNewsSource.ts";
 import { NewsService } from "./NewsService/NewsService.ts";
+import { MemcachedNewsCache } from "./NewsService/Cache/MemcachedNewsCache.ts";
+import { SimpleJsNewsCache } from "./NewsService/Cache/SimpleJsNewsCache.ts";
 
 const newsSource = new GNewsSource();
-// const newsCache = new InMemoryCache();
-const newsService = new NewsService(newsSource);
+
+const SERVERS = Deno.env.get("MEMCACHED_SERVERS");
+const MEMCACHED_USER = Deno.env.get("MEMCACHED_USER");
+const MEMCACHED_PASSWORD = Deno.env.get("MEMCACHED_PASSWORD");
+
+let newsCache;
+if (SERVERS && MEMCACHED_USER && MEMCACHED_PASSWORD) {
+  newsCache = new MemcachedNewsCache(SERVERS, MEMCACHED_USER, MEMCACHED_PASSWORD);
+} else {
+  newsCache = new SimpleJsNewsCache();
+}
+
+const newsService = new NewsService(newsSource, newsCache);
 
 export function createRouter(newsService: NewsService) {
   const router = new Router();

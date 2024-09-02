@@ -6,6 +6,7 @@ import { Article, NewsSource } from "./NewsSource/NewsSource.ts";
 import { NewsService } from "./NewsService/NewsService.ts";
 // import { InMemoryCache } from "./InMemoryCache.ts";
 import { createApplication } from "./main.ts";
+import { SimpleJsNewsCache } from "./NewsService/Cache/SimpleJsNewsCache.ts";
 
 class MockNewsSource implements NewsSource {
   private generateMockArticle(index: number): Article {
@@ -53,8 +54,8 @@ class MockNewsSource implements NewsSource {
 }
 
 const mockNewsSource = new MockNewsSource();
-// const newsCache = new InMemoryCache();
-const newsService = new NewsService(mockNewsSource);
+const newsCache = new SimpleJsNewsCache();
+const newsService = new NewsService(mockNewsSource, newsCache);
 const app = createApplication(newsService);
 
 Deno.test("GET /news should return N articles", async () => {
@@ -110,4 +111,3 @@ Deno.test("GET /news/byTitle should return 406 if 'title' is too short", async (
   const request = await superoak(app);
   await request.get("/news/byTitle?title=ab").expect(Status.NotAcceptable);
 });
-

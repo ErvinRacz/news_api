@@ -15,6 +15,7 @@ spec:
       containers:
       - name: news-api
         image: news_api
+        imagePullPolicy: Never
         ports:
         - containerPort: 8000
         env:

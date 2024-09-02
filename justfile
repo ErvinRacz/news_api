@@ -1,7 +1,6 @@
 # List all the just commands
 default:
     @just --list
-
 # Build the news api image
 docker-build:
     docker build -t news_api . && docker images | grep news_api
@@ -11,4 +10,3 @@ docker-run:
 # Run the full stack locally with Colima and Kubernetes
 full-stack:
     sed -e "s|\${GNEWS_API_KEY_PLACEHOLDER}|$GNEWS_API_KEY|g" -e "s|\${GNEWS_BASE_URL_PLACEHOLDER}|$GNEWS_BASE_URL|g" full-stack.yaml | kubectl apply -f - && (while ! kubectl port-forward service/news-api-service 8000:80; do sleep 3; done)
-
