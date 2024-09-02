@@ -44,6 +44,7 @@
                 git
                 gum
                 deno
+                docker
                 colima
                 just
                 git-crypt
