@@ -67,6 +67,7 @@
               just
               gum log --level info "Start colima:"
               colima start --kubernetes
+              kubectl config use-context colima
             '';
           };
       }
