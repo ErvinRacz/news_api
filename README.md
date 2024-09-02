@@ -10,7 +10,7 @@ This solution uses DENO as the server runtime for JavaScript.
 
 2. Choose _[`A. Full Stack Installation`](#a-full-stack-installation)_(Docker,
    Colima, Kubernetes, DENO, Memcached) or
-   _[`B. Bare Minimum Installation`](#b-bare-minimum-installation)_(DENO) path
+   _[`B. Bare Minimum Installation`](#b-bare-minimum-installation)_(just DENO :( ) path
    for the dev tools.
 
 ### A. Full Stack Installation (only Linux, MacOS, or WLS)
