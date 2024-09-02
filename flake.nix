@@ -65,6 +65,8 @@
               echo
               echo "🍎🍎 Run 'just <recipe>' to get started"
               just
+              gum log --level info "Start colima:"
+              colima start --kubernetes
             '';
           };
       }
