@@ -13,7 +13,7 @@ This solution uses DENO as the server runtime for JavaScript.
    _[`B. Bare Minimum Installation`](#b-bare-minimum-installation)_(DENO) path
    for the dev tools.
 
-### A. Full Stack Installation (only Linux, MacOS or WLS)
+### A. Full Stack Installation (only Linux, MacOS, or WLS)
 ```
                        ┌─────┐                         
                        │user │                         
@@ -53,17 +53,17 @@ This solution uses DENO as the server runtime for JavaScript.
 
 You can later uninstall it via `/nix/nix-installer uninstall`.
 
-[Alternatively follow the official guide.](https://nixos.org/download/#nix-install-linux)
+[Alternatively, follow the official guide.](https://nixos.org/download/#nix-install-linux)
 
 4. Bootstrap the full stack dev environment:
    ```
-   nix develop github:ErvinRacz/news_api#bootstrap && nix develop .
+   nix develop github:ErvinRacz/news_api#bootstrap && cd news_api && nix develop .
    ```
 Note! Next time just use `nix develop .`
 
-This will install all the dependencies required for running the whole stack. To have those dependencies available, just CD to the news api project in your shell. Learn more about [devshell](https://nixos.wiki/wiki/Development_environment_with_nix-shell).
+This will install all the dependencies required to run the whole stack. To have those dependencies available, just CD to the news API project in your shell. You can learn more about [devshell](https://nixos.wiki/wiki/Development_environment_with_nix-shell).
 
-5. Build the docker image, start colima, apply the full-stack deployment, use port forwarding by only this command: `just docker-build && just full-stack`
+5. Build the docker image, start colima, apply the full-stack deployment, and use port forwarding by only this command: `just docker-build && just full-stack`
 
 6. Open up a new shell and test if the API is available:
 
@@ -106,7 +106,7 @@ GET /news
 Fetches a specific number of news articles.
 
 **Query Parameters:**
-- `n`: (optional) Number of articles to fetch. Default is 10.
+- `n`: (optional) Number of articles to fetch. The default is 10.
 
 **Example:**
 ```bash
@@ -150,17 +150,17 @@ curl -X GET "http://localhost:8000/news/byTitle?title=Remarkable%20survival%20of
 ```
 
 # Futher Considerations:
-   - Retry mechanism for the api calls to GNEWS.
+   - Retry mechanism for the API calls to GNEWS.
    - Remove the secret key file from the repo
 ### API Design
-   - The router is not properly typed yet. The structure of return types could be provided.
+   - The router has not been properly typed yet. The structure of return types could be provided.
    - Using OpenAPI docs and serving the OpenAPI UI. `https://deno.land/x/openapi@0.1.0/mod.ts` could be used for that.
-   - I kept the current API design simple, but an important improvement point would be to intruduce pagination for the endpoints. This is especially important if we provide generic serach terms and a huge number of articles would be expected to match the query.
+   - I kept the current API design simple, but an important improvement point would be to introduce pagination for the endpoints. This is especially important if we provide generic search terms and a huge number of articles would be expected to match the query.
 ### Tests
    - Write more tests whether that is end-to-end api test or unit tests
    - Introduce code coverage metrics
    - The superoak tests hang. There must be a configuration issue that is to be solved.
 ### CI/CD
    - Nix can help by a lot to implement these pipelines
-   - CI checks should be put in palce to check for linting, formatting and the tests passing
+   - CI checks should be put in place to check for linting, formatting and the tests passing
    - secretes manager for k8s etc
