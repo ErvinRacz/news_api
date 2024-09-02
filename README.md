@@ -56,9 +56,12 @@ You can later uninstall it via `/nix/nix-installer uninstall`.
 [Alternatively follow the official guide.](https://nixos.org/download/#nix-install-linux)
 
 4. Bootstrap the full stack dev environment:
-   `nix develop github:ErvinRacz/news_api#bootstrap && cd news_api`
+   ```
+   nix develop github:ErvinRacz/news_api#bootstrap && nix develop .
+   ```
+Note! Next time just use `nix develop .`
 
-Note! This will install all the dependencies required for running the whole stack. To have those dependencies available, just CD to the news api project in your shell. Learn more about [devshell](https://nixos.wiki/wiki/Development_environment_with_nix-shell).
+This will install all the dependencies required for running the whole stack. To have those dependencies available, just CD to the news api project in your shell. Learn more about [devshell](https://nixos.wiki/wiki/Development_environment_with_nix-shell).
 
 5. Build the docker image, start colima, apply the full-stack deployment, use port forwarding by only this command: `just docker-build && just full-stack`
 
