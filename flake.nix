@@ -32,7 +32,7 @@
             shellHook = /*bash*/ ''
               gum confirm "Do you want to clone the ${projectName} project in the $(pwd)/news_api directory?" && git clone git@github.com:ErvinRacz/news_api.git
               cd news_api && git-crypt unlock .git-crypt-key
-              cp ./.secrets/gnews-api-key.secret ${self}/secrets/gnews-api-key.secret
+              cp ./.secrets/gnews-api-key.secret ${self}/.secrets/gnews-api-key.secret
               exit
             '';
           };
