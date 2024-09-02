@@ -30,9 +30,21 @@ export class MemcachedNewsCache implements NewsCache {
     }
 
     const response = this.decoder.decode(buffer.subarray(0, bytesRead));
+
     if (response.startsWith("VALUE")) {
-      const [, , , value] = response.split("\r\n");
-      return JSON.parse(value) as Article[];
+      const parts = response.split("\r\n");
+      const value = parts[1];
+
+      try {
+        // Handle the empty array case
+        if (value === "[]") {
+          return [];
+        }
+        return JSON.parse(value) as Article[];
+      } catch (error) {
+        console.error("Failed to parse JSON:", error);
+        return null;
+      }
     }
 
     return null;
