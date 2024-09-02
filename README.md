@@ -49,27 +49,31 @@ This solution uses DENO as the server runtime for JavaScript.
 ```
 3. Install Nix: the BEST package manager with a popular installer and default
    options.
-   ```curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install```
+   ```bash
+   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+   ```
 
 You can later uninstall it via `/nix/nix-installer uninstall`.
 
 [Alternatively, follow the official guide.](https://nixos.org/download/#nix-install-linux)
 
 4. Bootstrap the full stack dev environment:
-   ```
+   ```bash
    nix develop github:ErvinRacz/news_api#bootstrap && cd news_api && nix develop .
    ```
 Note! Next time just use `nix develop .`
 
 This will install all the dependencies required to run the whole stack. To have those dependencies available, just CD to the news API project in your shell. You can learn more about [devshell](https://nixos.wiki/wiki/Development_environment_with_nix-shell).
 
-5. Build the docker image, start colima, apply the full-stack deployment, and use port forwarding by only this command: ```just docker-build && just full-stack```
+5. Build the docker image, start colima, apply the full-stack deployment, and use port forwarding by only this command:
+   ```bash
+   just docker-build && just full-stack
+   ```
 
 6. Open up a new shell and test if the API is available:
-
-```bash
-curl -X GET "http://localhost:8000/news?n=5" -H "Accept: application/json" | jq
-```
+   ```bash
+   curl -X GET "http://localhost:8000/news?n=5" -H "Accept: application/json" | jq
+   ```
 
 ### B. Bare Minimum Installation (Linux, MacOS, Windows)
 
