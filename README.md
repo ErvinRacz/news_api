@@ -60,11 +60,9 @@ You can later uninstall it via `/nix/nix-installer uninstall`.
 
 Note! This will install all the dependencies required for running the whole stack. To have those dependencies available, just CD to the news api project in your shell. Learn more about [devshell](https://nixos.wiki/wiki/Development_environment_with_nix-shell).
 
-5. Normally the secret shouldn't be shared in a readme, but for the sake of simplifying testing, here it is. Unlock `GNEWS API KEY` secret by running in the root dir: `git-crypt unlock .git-crypt-key`
-
 6. Build the docker image, start colima, apply the full-stack deployment, use port forwarding by only this command: `just docker-build && just full-stack`
 
-7. Test if the API is available:
+7. Open up a new shell and test if the API is available:
 
 ```bash
 curl -X GET "http://localhost:8000/news?n=5" -H "Accept: application/json" | jq
