@@ -30,11 +30,10 @@
               ];
 
             shellHook = /*bash*/ ''
-              export NEWS_API_PROJECT_DIR="news_api"
-              gum confirm "Do you want to clone the ${projectName} project in the $(pwd)/$(NEWS_API_PROJECT_DIR) directory?" && git clone git@github.com:ErvinRacz/news_api.git
-              git-crypt unlock .git-crypt-key
-              gum confirm "Do you allow the installation of direnv for your nix profile? Necessary for automatic installation of your dev env. All dependencies will be installed on changing the directory to $(pwd)/$(NEWS_API_PROJECT_DIR)." && nix profile install nixpkgs#direnv nixpkgs#nix-direnv
-              direnv allow $NEWS_API_PROJECT_DIR/
+              gum confirm "Do you want to clone the ${projectName} project in the $(pwd)/news_api directory?" && git clone git@github.com:ErvinRacz/news_api.git
+              cd news_api && git-crypt unlock .git-crypt-key && cd ../
+              gum confirm "Do you allow the installation of direnv for your nix profile? Necessary for automatic installation of your dev env. All dependencies will be installed on changing the directory to $(pwd)/news_api." && nix profile install nixpkgs#direnv nixpkgs#nix-direnv
+              direnv allow news_api/
               exit
             '';
           };
