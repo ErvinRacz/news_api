@@ -51,21 +51,11 @@
                 jq
                 kubectl
               ];
-            env =
-              let
-                secretFile = ./.secrets/gnews-api-key.secret;
-                gnewsApiKey = builtins.tryEval (builtins.readFile secretFile);
-                apiKeyValue =
-                  if gnewsApiKey.success then
-                    builtins.readFile secretFile
-                  else
-                    "default-api-key";
-              in
-              {
-                GNEWS_API_KEY = apiKeyValue;
-                GNEWS_BASE_URL = "https://gnews.io/api/v4";
-                NEWS_API_PORT = 8000;
-              };
+            env = {
+              GNEWS_API_KEY = import ./.secrets/gnews-api-key.secret;
+              GNEWS_BASE_URL = "https://gnews.io/api/v4";
+              NEWS_API_PORT = 8000;
+            };
 
             shellHook = /*bash*/ ''
               gum log --level info "'--- git status ---'"
